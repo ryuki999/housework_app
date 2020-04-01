@@ -1,0 +1,95 @@
+{% load static %}
+<!doctype html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>Index</title>
+    <!--<link rel="stylesheet" type="text/css" href="{% static 'house/css/style.css' %}" />-->
+    <link rel="stylesheet" type="text/css" href="{% static 'house/css/index.css' %}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script>
+    $(function(){
+        $('.login-show').click(function() {
+            $('#login-modal').fadeIn();
+        });
+
+        $().ready(function(){
+          if("{{message}}"){
+            $('#signup-modal').show();
+          }
+        });
+
+        $('.signup-show').click(function() {
+            $('#signup-modal').fadeIn();
+        });
+
+    
+        $('.close-modal').click(function() {
+            $('#login-modal').fadeOut();
+            $('#signup-modal').fadeOut();
+        });
+    });
+    </script>
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <img class="logo" src="">
+            <span class="logo" id="logo_name"><a href="{% url 'index' %}">カジログ</a></span>
+        </div>
+    </header>
+
+    <div class="signup-modal-wrapper" id="signup-modal">
+        <div class="modal">
+          <div class="close-modal">
+            <i class="fa fa-2x fa-times"></i>
+          </div>
+          <div id="signup-form">
+            <h2>新規登録</h2>
+            <form method="post" action="{% url 'index' %}">
+                {% csrf_token %}
+                <input type="hidden" name="new_registration" value="new_registration">
+                  {{username_form}}
+                  {{password_form}}<br>
+                  {{message}}
+                <button id="submit-btn">新規登録</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="login-modal-wrapper" id="login-modal">
+        <div class="modal">
+          <div class="close-modal">
+            <i class="fa fa-2x fa-times"></i>
+          </div>
+          <div id="login-form">
+            <h2>ログイン</h2>
+            <form method="post" action="{% url 'index' %}">
+                {% csrf_token %}
+                <input type="hidden" name="login" value="login">
+                  {{username_form}}
+                  {{password_form}}
+                <button id="submit-btn">ログイン</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    <div class="top-wrapper">
+        <div class="container">
+          <h1>SHARE THE HOUSEWORK</h1>
+          <p>このアプリは家事を家族で楽しく分担することを目的としています。</p>
+          <p>当アプリを活用して家事を楽しくしましょう！</p>
+          <div class="btn login login-show">ログインはこちら</div>
+          <div class="btn signup signup-show">新規登録はこちら</div>
+        </div>
+    </div>
+    <footer>
+        <div class="container">
+          <img src="">
+          <p>Housework Application.</p>
+        </div>
+    </footer>
+</body>
+</html>

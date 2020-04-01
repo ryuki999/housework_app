@@ -1,0 +1,65 @@
+{% load static %}
+<!doctype html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Style-Type" content="text/css">
+    <meta http-equiv="Content-Script-Type" content="text/javascript">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'house/css/style.css' %}" />
+    {% block head %}
+    {% endblock %}
+</head>
+
+<body>
+    <header>
+        <div class="header-left">
+            <img class="logo" src="">
+            <span class="logo" id="logo_name"><a href="{% url 'index' %}">カジログ</a></span>
+        </div>
+        {% block header %}
+        {% endblock %}
+    </header>
+    <!--dl（description list）= 説明リスト-->
+    <!--dt（description term）= 説明する言葉-->
+    <!--dd（definition / description）= 定義文 or 説明文-->
+    <div class="row">
+    <div id="left-sidebar">
+        <dl class="sidebar-dl">
+            <dt>基本情報</dt>
+            <dd>
+                <p>今日の日付：</p>
+                <p>ログインユーザ： {{login_user}}</p>
+                <p>グループ名：古川家</p>
+            </dd>
+        </dl>
+    {% block left-sidebar %}{% endblock %}
+    </div>    <!--左サイドバーここまで-->
+    <!-- // left-sidebar end -->
+
+    <div id="contents-inner">
+        <a href="{% url 'home' %}">ホーム</a>
+        <a href="{% url 'calendar' %}">カレンダー</a>
+        <a href="{% url 'housework_report' %}">家事遂行報告</a>
+        <a href="{% url 'housework_registration' %}">家事登録</a>
+        <a href="{% url 'index' %}">ログアウト</a>
+    {% block contents %}
+    {% endblock %}
+    </div>
+
+    <div id="right-sidebar">
+        <!--右サイドバーここから-->
+        <p class="side-title"></p>
+        <ul class="localnavi">
+            <li><a href="{% url 'home' %}">ホーム</a></li>
+            <li><a href="{% url 'calendar' %}">カレンダー</a></li>
+            <li><a href="{% url 'housework_report' %}">家事遂行報告</a></li>
+            <li><a href="{% url 'housework_registration' %}">家事登録</a></li>
+            <li><a href="{% url 'index' %}">ログアウト</a></li>
+        </ul>
+        <!--右サイドバーここまで-->
+        {% block right-sidebar %}{% endblock %}
+    </div><!-- // right-sidebar end -->
+    
+</body>
+</html>

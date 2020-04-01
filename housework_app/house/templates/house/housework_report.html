@@ -1,0 +1,37 @@
+{% extends 'house/layout.html' %}
+
+{% block head %}
+<style>
+    .form {
+        list-style-type: none;
+        display: inline;
+    }
+</style>
+{% endblock %}
+
+{% block title %}家事遂行報告{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block left-sidebar %}
+{% endblock %}
+
+{% block contents %}
+<h2>家事遂行報告フォーム</h2>
+
+
+<form method="post" action="{% url 'housework_report' %}">
+    {% csrf_token %}
+    <input type="hidden" name="housework_report" value="">
+    <div class="form">
+        {{housework_checkform}}
+    </div>
+    <button>報告</button>
+</form>
+{{message}}
+{{check}}
+{% endblock %}
+
+{% block right-sidebar %}
+{% endblock %}
