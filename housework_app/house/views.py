@@ -96,3 +96,53 @@ def home(request):
     }
 
     return render(request, "house/home.html", params)
+
+
+def calendar(request):
+
+    if "login_user" in request.session:
+        username = request.session["login_user"]
+
+    nextDate_year = datetime.date.today().year
+    nextDate_month = datetime.date.today().month
+    nextDate_day = datetime.date.today().day
+
+    day_rank = {}
+
+    if "nextDate_year" in request.GET \
+       and "nextDate_month" in request.GET \
+       and "nextDate_day" in request.GET:
+
+        nextDate_year = int(request.GET["nextDate_year"])
+        nextDate_month = int(request.GET["nextDate_month"])
+        nextDate_day = int(request.GET["nextDate_day"])
+
+    argDate = datetime.date(nextDate_year, nextDate_month, nextDate_day)
+    calendar_first_day = argDate - datetime.timedelta(days=(argDate.weekday() + 1))
+    calendar_day = calendar_first_day
+
+    for _ in range(0, 35):
+        if Day_rank.objects.filter(
+          date=calendar_day.strftime("%Y-%m-%d")).exists():
+          
+            day_info = Day_rank.objects.filter(
+              date=calendar_day.strftime("%Y-%m-%d")).order_by('-total_point')
+            day_rank_info = {}
+            count = 0
+            for info in day_info:
+                count += 1
+                day_rank_info[count] = [info.user_id.username,
+                                        info.total_point]
+            day_rank[calendar_day.strftime("%Y-%m-%d")] = day_rank_info
+        calendar_day += datetime.timedelta(days=1)
+    
+    calendar_first_day.strftime("%Y-%m-%d")
+    params = {
+        "login_user": username,
+        "rank": day_rank,
+        "calendar_first_day": calendar_first_day,
+        "nextDate_year": nextDate_year,
+        "nextDate_month": nextDate_month,
+        "nextDate_day": nextDate_day,
+    }
+    return render(request, "house/calendar.html", params)
