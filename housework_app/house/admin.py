@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User,Housework,Workreport,Day_rank
+from .models import User, Housework, Workreport, Day_rank
 
 # Register your models here.
 admin.site.register(User)

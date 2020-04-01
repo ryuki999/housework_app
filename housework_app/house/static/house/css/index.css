@@ -1,0 +1,152 @@
+body {
+  margin: 0;
+}
+
+header {
+  height: 30px;
+  width: 100%;
+  background-color: rgba(158, 232, 247, 0.9);
+  position :fixed;
+  top: 0;
+  z-index: 10;
+}
+
+.logo {
+  width: 124px;
+  margin-top: 20px;
+}
+
+#logo_name {
+width: 124px;
+margin-top: 20px;
+font-size:18px;
+
+}
+
+.header-left {
+  float: left;
+}
+
+
+/*背景画像周り*/
+.top-wrapper {
+padding: 180px 0 100px 0;
+background-image: url(../img/living.png);
+background-size: 1800px 500px;
+background-size: 100% 100%;
+color: white;
+text-align: center;
+}
+
+.container {
+width: 1170px;
+padding: 0 15px;
+margin: 0 auto;
+}
+
+.top-wrapper h1 {
+opacity: 0.7;
+font-size: 45px;
+letter-spacing: 5px;
+}
+
+.top-wrapper p {
+opacity: 0.7;
+font-size: 14px;
+margin-bottom: 35px;
+}
+
+.signup {
+  background-color: #239b76;
+}
+
+.login {
+  background-color: #239b76;
+}
+
+/*top-wrapper以降*/
+.btn {
+  padding: 8px 24px;
+  color: white;
+  display: inline-block;
+  opacity: 0.8;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  opacity: 1;
+}
+
+.login-modal-wrapper, .signup-modal-wrapper {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 100;
+}
+
+.modal {
+  position: absolute;
+  top: 20%;
+  left: 34%;
+  background-color: #e6ecf0;
+  padding: 20px 0 40px;
+  border-radius: 10px;
+  width: 450px;
+  height: auto;
+  text-align: center;
+}
+
+.fa-times {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  color: rgba(128, 128, 128, 0.46);
+  cursor: pointer;
+}
+
+#signup-form, #login-form {
+  width: 100%;
+}
+
+/*
+padding・margin省略
+margin:10px;上右下左
+margin:10px 20px;上下、左右
+margin:10px 20px 30px;上、左右、下
+*/
+
+#signup-form input, #login-form input {
+  width: 320px;
+  margin-bottom: 20px;
+  font-size: 12px;
+  padding: 12px 6px;
+  border: 1px solid #d0d5d8;
+}
+
+#submit-btn {
+  padding: 14px 140px;
+  background-color: #5dca88;
+  border: none;
+  border-radius: 3px;
+  color: white;
+  margin: 10px auto;
+  cursor: pointer;
+}
+
+footer img {
+  width: 125px;
+}
+
+footer p {
+  color: #b3aeb5;
+  font-size: 12px;
+}
+
+footer {
+  padding-top: 30px;
+}
