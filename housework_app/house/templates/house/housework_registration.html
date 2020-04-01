@@ -1,0 +1,89 @@
+{% extends 'house/layout.html' %}
+
+{% block title %}家事登録{% endblock %}
+
+
+{% block head %}
+<style>
+#input_plural {
+    margin: 10px 0;
+}
+ 
+#input_plural input.form-control {
+    display: inline-block;
+    width: 75%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    color: #555;
+}
+ 
+#input_plural input.pluralBtn {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ccc;
+    background: #fff;
+    border-radius: 5px;
+    padding: 0;
+    margin: 0;
+}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).on("click", ".add", function() {
+    $(this).parent().clone(true).insertAfter($(this).parent());
+});
+$(document).on("click", ".del", function() {
+    var target = $(this).parent();
+    if (target.parent().children().length > 1) {
+        target.remove();
+    }
+});
+</script>
+{% endblock %}
+
+{% block contents %}
+
+<h2>登録済み家事一覧</h2>
+<!--DBから家事を抜き出す-->
+{% for i in housework_all %}
+{{i.housework_name}}
+{{i.point}}
+{% endfor %}
+
+<!--家事名・ポイント入力フォーム-->
+<h2>家事登録フォーム</h2>
+<div align="center">
+<table>
+    <tr>
+        <form method="post" action="{% url 'housework_registration' %}">
+        {% csrf_token %}
+        <input type="hidden" name="housework_registration" value="__housework_registration_form__">
+        <div align="left">
+        <td>{{housework_name_form}}</td>
+        <td>{{housework_point_form}}</td>
+        </div>
+        <div align="left">
+        <td><button>家事登録</button></td>
+        </div>
+        </form>
+    </tr>
+</table>
+</div>
+{{message}}
+
+<div id="input_pluralBox">
+    <div id="input_plural">
+        {{housework_name_form}}
+        {{housework_point_form}}
+        <input type="button" value="＋" class="add pluralBtn">
+        <input type="button" value="－" class="del pluralBtn">
+    </div>
+</div>
+
+{% endblock %}
+
+{% block sidebar %}
+{% endblock %}
+
+

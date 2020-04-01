@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 
 from .models import User, Housework, Workreport, Day_rank
-from .forms import UsernameForm, PasswordForm
+from .forms import UsernameForm, PasswordForm, \
+                HouseworkNameForm, HouseworkPointForm
 
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
@@ -146,3 +147,44 @@ def calendar(request):
         "nextDate_day": nextDate_day,
     }
     return render(request, "house/calendar.html", params)
+
+
+def housework_registration(request):
+
+    # フォームの用意
+    housework_name_form = HouseworkNameForm()
+    housework_point_form = HouseworkPointForm()
+    # 変数の用意
+    housework_all = ""
+    message = ""
+    housework_name = ""
+    point = ""
+    if "login_user" in request.session:
+        username = request.session["login_user"]
+
+    if Housework.objects.exists():
+        housework_all = Housework.objects.all().values("housework_name","point")
+
+    #POST送信時の処理
+    if request.method == "POST":
+        if 'housework_registration' in request.POST:
+            housework_name = request.POST["housework_name"]
+            point = request.POST["point"]
+
+        #新規登録処理
+            if Housework.objects.filter(housework_name=housework_name).exists():
+                message="既に登録されている家事です"
+            else:
+                message = "[" + housework_name + "]" + "家事登録完了しました"
+                housework = Housework(housework_name=housework_name,point=point)
+                housework.save()
+    
+
+    params = {
+        "housework_name_form":housework_name_form,
+        "housework_point_form":housework_point_form,
+        "login_user":username,
+        "housework_all":housework_all,
+        "message":message,
+    }
+    return render(request, "house/housework_registration.html", params)
