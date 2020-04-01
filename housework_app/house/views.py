@@ -55,3 +55,44 @@ def index(request):
         "message": message,
     }
     return render(request, "house/index.html", params)
+
+
+def home(request):
+
+    if "login_user" in request.session:
+        username = request.session["login_user"]
+        user = User.objects.get(username=username)
+
+    today_point_array = []
+    today_report_array = []
+    yesterday_point_array = []
+
+    if Workreport.objects.filter(user_id=user,
+                                 rep_date=datetime.date.today()).exists():
+
+        today_report = Workreport.objects.filter(user_id=user,
+                                                 rep_date=datetime.date.today()
+                                                 )
+        for i in today_report:
+            today_report_array.append(i)
+
+    if Day_rank.objects.filter(date=datetime.date.today()).exists():
+        today_point = Day_rank.objects.filter(date=datetime.date.today())
+        for i in today_point:
+            today_point_array.append(i)
+
+    # 昨日の日付を算出
+    yesterday_date = datetime.date.today() + datetime.timedelta(days=-1)
+    if Day_rank.objects.filter(date=yesterday_date).exists():
+        yesterday_point = Day_rank.objects.filter(date=yesterday_date)
+        for i in yesterday_point:
+            yesterday_point_array.append(i)
+
+    params = {
+        "login_user": username,
+        "today_report_array": today_report_array,
+        "today_point_array": today_point_array,
+        "yesterday_point_array": yesterday_point_array,
+    }
+
+    return render(request, "house/home.html", params)

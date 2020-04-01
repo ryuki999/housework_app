@@ -1,0 +1,169 @@
+@charset "utf-8";
+
+/* -------------------------------------------------------------
+
+[1] レイアウトに関する指定
+[2] ヘッダーブロック内に関する指定
+[3] コンテンツブロック内に関する指定
+[4] サイドバーブロック内に関する指定
+
+
+/* 一括で全ての要素の余白をゼロに指定 */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/* 全体的なリンク */
+a:link { color: #00f; }
+a:visited { color: #90f; }
+a:hover { color: #f00; }
+a:active { color: #f00; text-decoration: underline; }
+
+/* -------------------------------------------------------------
+   [1] レイアウトに関する指定 */
+
+body {
+  position:absolute;
+  font-size: 110%;
+  text-align: center;
+  font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+  padding: 0;
+  margin: 0;
+}
+
+/*テーブル・ボタンなど*/
+button {
+  margin-top:30px;
+  margin-right:30px;
+  margin-left:30px;
+  width: 120px;
+  height: 64px;
+}
+table{
+  margin-top:50px;
+}
+
+header {
+  height: 30px;
+  width: 100%;
+  background-color: rgba(158, 232, 247, 0.9);
+  position :fixed;
+  top: 0;
+  z-index: 10;
+}
+
+.logo {
+  width: 124px;
+  margin-top: 20px;
+}
+
+#logo_name {
+width: 124px;
+margin-top: 20px;
+font-size:18px;
+
+}
+
+.header-left {
+  float: left;
+}
+
+
+.row {
+  display: flex;/*これを入れるだけで横並び*/
+  margin: 30px 0 0 0;
+  /*background: #ccc;*/
+}
+
+#contents-inner {
+  margin: 0 20px 0 20px;
+  width: 1200px;
+  height: 600px;
+  float:left;
+  background:pink;
+}
+
+#left-sidebar {
+  width: 200px;
+  height: 600px;
+  float:left;
+  background:green;
+}
+
+#right-sidebar {
+  width: 200px;
+  height: 600px;
+  float: left;
+  background:green;
+}
+
+
+/* -- リスト/サイドバーメニュー -- */
+.localnavi {
+  list-style-type: none;
+  margin-bottom: 20px;
+}
+
+.localnavi li { display: inline; }
+
+.localnavi a {
+  font-size: 90%;
+  text-decoration: none;
+  width: 190px;
+  padding: 4px 4px;
+  display: block;
+  border: 1px outset #09f;
+  background-color: #09f;
+  color: #fff;
+}
+
+.localnavi a:hover {
+  text-decoration: none;
+  border: 1px outset #09f;
+  background-color: #0cf;
+  color: #f00;
+}
+
+.sidebar-dl {
+  font-size: 120%;
+  margin: 0 0 20px;
+}
+
+.sidebar-dl dt {
+  text-align: center;
+  padding: 4px 0;
+  background-color: #09f;
+  color: #fff;
+}
+
+.sidebar-dl dd {
+  line-height: 1.5em;
+  margin-bottom: 10px;
+  background-color: #09f;
+  color: #eee;
+}
+/*
+
+/* -------------------------------------------------------------
+   [3] コンテンツブロック内に関する指定 */
+/* -- 見出し -- */
+h2,h3,h4,h5,h6 {
+  padding-top: 30px;
+  font-size: 120%;
+  margin-bottom: 0.5em;
+  padding-left: 30px;
+  border-left: 2px solid #69f;
+  border-bottom: 1px solid #69f;
+  /*background: url(img/bg-h.jpg) no-repeat 0 0;*/
+}
+
+h3,h4,h5,h6 { margin-top: 3em; }
+
+/* -- 文字 -- */
+#contents p {
+  line-height: 1.6em;
+  margin-bottom: 0.5em;
+}
+
+/*フォーム動的追加用*/

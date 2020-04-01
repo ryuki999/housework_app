@@ -1,0 +1,77 @@
+{% extends 'house/layout.html' %}
+
+{% block head %}
+    <style>
+        #today_report{
+            margin: 50px 50px 50px 150px;/*[上][右][下][左]*/
+            width:400px;
+            height:400px;
+            float:right;
+            background:blue;
+        }
+        
+        #frame{
+            margin: 50px 150px 50px 50px;/*[上][右][下][左]*/
+            width:400px;
+            height:400px;
+        }
+        #today_point{
+            margin: 0px 0px 0px 0px;
+            width:400px;
+            height:185px;
+            float:right;
+            background:red;
+        }
+        #yesterday_point{
+            margin: 30px 0px 0px 0px;
+            width:400px;
+            height:185px;
+            float:right;
+            background:green;
+        }
+    </style>
+{% endblock %}
+
+{% block title %}ホーム{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block left-sidebar %}
+{% endblock %}
+
+{% block contents %}
+<div class="row">
+    <div id="today_report" font-size="150%">
+        <h2>今日の報告一覧</h2>
+        {% for i in today_report_array %}
+        {{ i.housework_id.housework_name }}
+        {{ i.housework_id.point }}<br/>
+        {% endfor %}
+    </div>
+
+    <div id="frame">
+        <div id="today_point">
+            <h2>今日のポイントランキング</h2>
+            {% for i in today_point_array %}
+            {{ i.user_id.username }}
+            {{ i.total_point }}<br/>
+            {% endfor %}
+        </div>
+
+        <div id="yesterday_point">
+            <h2>昨日のポイントランキング</h2>
+            {% for i in yesterday_point_array %}
+            {{ i.user_id.username }}
+            {{ i.total_point }}<br/>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block right-sidebar %}
+{% endblock %}
+
+
