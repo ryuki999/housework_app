@@ -3,7 +3,7 @@ from django.contrib import messages
 
 from .models import User, Housework, Workreport, Day_rank
 from .forms import UsernameForm, PasswordForm, \
-                HouseworkNameForm, HouseworkPointForm
+                HouseworkNameForm, HouseworkPointForm, HouseworkCheckForm
 
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
@@ -119,7 +119,8 @@ def calendar(request):
         nextDate_day = int(request.GET["nextDate_day"])
 
     argDate = datetime.date(nextDate_year, nextDate_month, nextDate_day)
-    calendar_first_day = argDate - datetime.timedelta(days=(argDate.weekday() + 1))
+    calendar_first_day = argDate - datetime.timedelta(
+                                      days=(argDate.weekday() + 1))
     calendar_day = calendar_first_day
 
     for _ in range(0, 35):
@@ -163,28 +164,79 @@ def housework_registration(request):
         username = request.session["login_user"]
 
     if Housework.objects.exists():
-        housework_all = Housework.objects.all().values("housework_name","point")
+        housework_all = Housework.objects.all().values("housework_name",
+                                                       "point")
 
-    #POST送信時の処理
+    # POST送信時の処理
     if request.method == "POST":
         if 'housework_registration' in request.POST:
             housework_name = request.POST["housework_name"]
             point = request.POST["point"]
 
-        #新規登録処理
+        # 新規登録処理
             if Housework.objects.filter(housework_name=housework_name).exists():
-                message="既に登録されている家事です"
+                message = "既に登録されている家事です"
             else:
                 message = "[" + housework_name + "]" + "家事登録完了しました"
-                housework = Housework(housework_name=housework_name,point=point)
+                housework = Housework(housework_name=housework_name,
+                                      point=point)
                 housework.save()
-    
 
     params = {
-        "housework_name_form":housework_name_form,
-        "housework_point_form":housework_point_form,
-        "login_user":username,
-        "housework_all":housework_all,
-        "message":message,
+        "housework_name_form": housework_name_form,
+        "housework_point_form": housework_point_form,
+        "login_user": username,
+        "housework_all": housework_all,
+        "message": message,
     }
     return render(request, "house/housework_registration.html", params)
+
+
+def housework_report(request):
+
+    housework_name = Housework.objects.all()
+    # フォームの用意
+    housework_checkform = HouseworkCheckForm(housework_name=housework_name)
+    check = ""
+    message = ""
+
+    if "login_user" in request.session:
+        username = request.session["login_user"]
+
+    # 家事報告処理
+    if "housework_report" in request.POST:
+        user = User.objects.get(username=username)
+        check = request.POST.getlist("housework_check_name")
+        message = "家事報告完了しました"
+
+        # get:必ず要素が１つ存在(返り値:インスタンス),filter:要素が複数存在(返り値:Query)
+        # filter().first()をつけるとQuerySetの一番初めの要素だけを返してくれる
+        for item in check:
+            housework = Housework.objects.get(housework_name=item)
+            workreport = Workreport(user_id=user,
+                                    housework_id=housework,
+                                    rep_date=datetime.date.today())
+            workreport.save()
+
+            if Day_rank.objects.filter(date=datetime.date.today(),
+                                       user_id=user.user_id).exists():
+                day_rank = Day_rank.objects.get(date=datetime.date.today(),
+                                                user_id=user)
+                day_rank.total_point += housework.point
+                day_rank.save()
+            else:
+                total_point = 0
+                total_point += housework.point
+                day_rank = Day_rank(date=datetime.date.today(),
+                                    user_id=user,
+                                    total_point=total_point)
+                day_rank.save()
+
+    params = {
+        "login_user": username,
+        "housework_checkform": housework_checkform,
+        "check": check,
+        "message": message,
+    }
+
+    return render(request, "house/housework_report.html", params)

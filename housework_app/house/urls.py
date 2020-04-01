@@ -7,4 +7,5 @@ urlpatterns = [
     path("calendar", views.calendar, name="calendar"),
     path("housework_registration", views.housework_registration, \
          name="housework_registration"),
+    path("housework_report", views.housework_report, name="housework_report"),
 ]
